@@ -1,5 +1,7 @@
-# Simple Notes App for TWS Community
+# Django Notes App - DevOps Portfolio Project
 This is a simple notes app built with React and Django.
+
+**CI/CD Status:** ![CI/CD Pipeline](https://github.com/Tejas-Shende056/Notes-app/actions/workflows/ci.yml/badge.svg)
 
 ## Requirements
 1. Python 3.9
