@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notes-app-deployment
+  labels:
+    app: notes-app
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: notes-app
+  template:
+    metadata:
+      labels:
+        app: notes-app
+    spec:
+      containers:
+      - name: notes-app
+        image: tejasshende056/notes-app:latest
+        ports:
+        - containerPort: 8000
+
+        # Environment variables from ConfigMap
+        env:
+        - name: DEBUG
+          valueFrom:
+            configMapKeyRef:
+              name: notes-config
+              key: DEBUG
+        - name: ALLOWED_HOSTS
+          valueFrom:
+            configMapKeyRef:
+              name: notes-config
+              key: ALLOWED_HOSTS
+
+        # Environment variables from Secret
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: notes-secret
+              key: SECRET_KEY
+
+        # Resource limits (CPU/Memory)
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+
+        # Liveness probe (restart if unhealthy)
+        livenessProbe:
+          httpGet:
+            path: /api/
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+
+        # Readiness probe (don't send traffic if not ready)
+        readinessProbe:
+          httpGet:
+            path: /api/
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notes-config
+data:
+  DEBUG: "True"
+  ALLOWED_HOSTS: "localhost,127.0.0.1,notes.local"

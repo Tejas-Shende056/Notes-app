@@ -1,0 +1,27 @@
+# Development environment overrides
+
+replicaCount: 1
+
+image:
+  repository: tejasshende056/notes-app
+  pullPolicy: Always
+  tag: "latest"
+
+service:
+  type: NodePort
+  port: 8000
+
+config:
+  debug: "True"
+  allowedHosts: "localhost,127.0.0.1,notes.local,*.local"
+
+secrets:
+  secretKey: "dev-secret-key-not-for-production"
+
+resources:
+  requests:
+    memory: "64Mi"
+    cpu: "50m"
+  limits:
+    memory: "128Mi"
+    cpu: "250m"

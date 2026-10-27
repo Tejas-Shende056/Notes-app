@@ -1,0 +1,33 @@
+# Production environment overrides
+
+replicaCount: 3
+
+image:
+  repository: tejasshende056/notes-app
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: LoadBalancer
+  port: 8000
+
+config:
+  debug: "False"
+  allowedHosts: "notes.production.com,www.notes.production.com"
+
+secrets:
+  secretKey: "CHANGE-THIS-TO-A-REAL-SECRET-KEY-IN-PRODUCTION"
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "200m"
+  limits:
+    memory: "512Mi"
+    cpu: "1000m"
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70

@@ -1,0 +1,27 @@
+# Staging environment overrides
+
+replicaCount: 2
+
+image:
+  repository: tejasshende056/notes-app
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: NodePort
+  port: 8000
+
+config:
+  debug: "False"
+  allowedHosts: "staging.notes.local,*.staging.local"
+
+secrets:
+  secretKey: "staging-secret-key-change-this"
+
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "100m"
+  limits:
+    memory: "256Mi"
+    cpu: "500m"
